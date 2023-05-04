@@ -38,8 +38,8 @@ namespace ExportServer
 
         public string Name;
         public int mapId;
-        public int lenX;
-        public int lenZ;
+        public float lenX;
+        public float lenZ;
         public float gridWidth;
         public List<GridNodeServerData> NodeDatas;
         
@@ -49,10 +49,10 @@ namespace ExportServer
     public class GridNodeServerData
     {
         public int Index;
-        public int x;
-        public int z; 
+        public float x;
+        public float z; 
         public uint Flags;
-        public uint Walkable;
+        public uint walkable;
         public uint HNodeIndex;
         public uint IsDirty;
         public uint Tag;
@@ -60,7 +60,7 @@ namespace ExportServer
 
         public void FlagParse()
         {
-            Walkable = Flags & (1 << 0);
+            walkable = Flags & (1 << 0);
             HNodeIndex = 0;
             for (int i = 1; i <= 17; i++)
             {
