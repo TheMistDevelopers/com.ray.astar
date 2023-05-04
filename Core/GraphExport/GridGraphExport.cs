@@ -34,7 +34,7 @@ namespace ExportServer
                 if (graph is GridGraph)
                 {
                     var gridGraph = (GridGraph)graph;
-                    gridGraphServerDatas.Add(new GridGraphServerData(gridGraph));
+                    gridGraphServerDatas.Add(new GridGraphServerData(gridGraph,MapID));
                 }
             }
         }
