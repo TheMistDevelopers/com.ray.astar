@@ -12,21 +12,22 @@ namespace ExportServer
     {
         [NonSerialized]
         private GridGraph graph;
-        public GridGraphServerData(GridGraph graph) 
+        public GridGraphServerData(GridGraph graph,int mapId) 
         {
             this.graph = graph;
-            Rotation = new Vector2(graph.rotation.x, graph.rotation.z);
-            Center = new Vector2(MathF.Round(graph.center.x), MathF.Round(graph.center.z));//四舍五入，规范设置都是整形，但是数据有时会.9999999所以这么处理
-            UnclampedSize = graph.unclampedSize;
-            NodeSize = graph.nodeSize;
+            lenX = graph.unclampedSize.x;
+            lenZ = graph.unclampedSize.y;
+            gridWidth = graph.nodeSize;
             Name = graph.name;
             NodeDatas = new List<GridNodeServerData>();
+            this.mapId = mapId;
             graph.GetNodes((node) =>
             {
                 GridNodeServerData data = new GridNodeServerData();
                 var gridNode = node as GridNode;
                 data.Index = gridNode.NodeInGridIndex;
-                data.Position = new Vector2(gridNode.position.x, gridNode.position.z);
+                data.x = gridNode.position.x;
+                data.z = gridNode.position.z;
                 data.Flags = gridNode.Flags;
                 data.FlagParse();
                 NodeDatas.Add(data);
@@ -36,10 +37,10 @@ namespace ExportServer
         }
 
         public string Name;
-        public Vector2 Center;
-        public Vector2 Rotation;
-        public Vector2 UnclampedSize;
-        public float NodeSize;
+        public int mapId;
+        public int lenX;
+        public int lenZ;
+        public float gridWidth;
         public List<GridNodeServerData> NodeDatas;
         
 
@@ -48,7 +49,8 @@ namespace ExportServer
     public class GridNodeServerData
     {
         public int Index;
-        public Vector2 Position;
+        public int x;
+        public int z; 
         public uint Flags;
         public uint Walkable;
         public uint HNodeIndex;
